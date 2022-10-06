@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 
-class Predictor(nn.Module):
+class Net(nn.Module):
     def __init__(self, num_states, num_inputs) -> None:
         super().__init__()
 
@@ -15,7 +15,11 @@ class Predictor(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 128),
             nn.ReLU(),
-            nn.Linear(128, 128),
+            nn.Linear(128, 256),
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
@@ -23,7 +27,8 @@ class Predictor(nn.Module):
         )
 
         # Adjust weight decay to add L2 regularization
-        self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, weight_decay=0)
+        self.lr = 1e-3
+        self.optimizer = torch.optim.Adam(self.parameters(), weight_decay=0)
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.to(self.device)
