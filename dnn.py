@@ -28,7 +28,7 @@ class Net(nn.Module):
 
         # Adjust weight decay to add L2 regularization
         self.lr = 1e-3
-        self.optimizer = torch.optim.Adam(self.parameters(), weight_decay=0)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=self.lr, weight_decay=0)
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.to(self.device)
